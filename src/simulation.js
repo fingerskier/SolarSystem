@@ -8,9 +8,13 @@ export function createSimulation() {
   const ship = {
     x: 0,          // AU
     y: 1.2,        // AU — start just outside Earth's orbit
+    z: 0,          // AU — altitude above ecliptic
     vx: 0,         // AU/s (simulation seconds)
     vy: 0,
+    vz: 0,
     heading: -Math.PI / 2, // pointing toward sun initially
+    pitch: 0,      // radians, positive = nose up
+    roll: 0,
     throttle: 0,   // 0..1 fraction of lightspeed
     speed: 0,      // current speed in km/s
   }
@@ -39,6 +43,21 @@ export function createSimulation() {
     const turnRate = 2.0 // radians per real second
     if (keys.left) ship.heading -= turnRate * dt
     if (keys.right) ship.heading += turnRate * dt
+    if (keys.pitchUp) ship.pitch += turnRate * dt
+    if (keys.pitchDown) ship.pitch -= turnRate * dt
+
+    // Mouse look deltas (from pointer lock)
+    if (keys.yawDelta) {
+      ship.heading += keys.yawDelta
+      keys.yawDelta = 0
+    }
+    if (keys.pitchDelta) {
+      ship.pitch += keys.pitchDelta
+      keys.pitchDelta = 0
+    }
+
+    // Clamp pitch to avoid flipping
+    ship.pitch = Math.max(-Math.PI / 2 + 0.01, Math.min(Math.PI / 2 - 0.01, ship.pitch))
 
     // Throttle control (fraction of c)
     const throttleRate = 0.15 // per second
@@ -52,23 +71,25 @@ export function createSimulation() {
     // Convert speed to AU/s for position updates
     const speedAU = ship.speed / AU_KM
 
-    // Apply velocity in heading direction
-    ship.vx = speedAU * Math.cos(ship.heading)
-    ship.vy = speedAU * Math.sin(ship.heading)
+    // Apply velocity in heading+pitch direction (3D)
+    ship.vx = speedAU * Math.cos(ship.pitch) * Math.cos(ship.heading)
+    ship.vy = speedAU * Math.cos(ship.pitch) * Math.sin(ship.heading)
+    ship.vz = speedAU * Math.sin(ship.pitch)
 
     // Update position (multiply by timeWarp so ship also moves faster in warp)
     ship.x += ship.vx * simDt
     ship.y += ship.vy * simDt
+    ship.z += ship.vz * simDt
 
     // Advance simulation time
     simTime += dayDt
 
-    // Compute planet positions
+    // Compute planet positions (planets stay in ecliptic plane, pz=0)
     const bodies = [
-      { ...SUN, px: 0, py: 0 },
+      { ...SUN, px: 0, py: 0, pz: 0 },
       ...PLANETS.map(p => {
         const pos = getBodyPosition(p, simTime)
-        return { ...p, px: pos.x, py: pos.y }
+        return { ...p, px: pos.x, py: pos.y, pz: 0 }
       }),
     ]
 
@@ -86,10 +107,10 @@ export function createSimulation() {
 
   function getState() {
     const bodies = [
-      { ...SUN, px: 0, py: 0 },
+      { ...SUN, px: 0, py: 0, pz: 0 },
       ...PLANETS.map(p => {
         const pos = getBodyPosition(p, simTime)
-        return { ...p, px: pos.x, py: pos.y }
+        return { ...p, px: pos.x, py: pos.y, pz: 0 }
       }),
     ]
     return { ship: { ...ship }, bodies, simTime, timeWarp }

@@ -23,6 +23,87 @@ canvas {
   height: 100%;
 }
 
+/* Cockpit Overlay */
+.cockpit-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.crosshair-h {
+  position: absolute;
+  width: 30px;
+  height: 1px;
+  background: rgba(0, 255, 136, 0.5);
+  top: 0;
+  left: -15px;
+}
+
+.crosshair-v {
+  position: absolute;
+  width: 1px;
+  height: 30px;
+  background: rgba(0, 255, 136, 0.5);
+  top: -15px;
+  left: 0;
+}
+
+.crosshair-circle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 50%;
+  top: -10px;
+  left: -10px;
+}
+
+.cockpit-frame {
+  position: absolute;
+  background: rgba(0, 10, 20, 0.6);
+}
+
+.cockpit-frame-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.15);
+}
+
+.cockpit-frame-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  border-top: 1px solid rgba(0, 255, 136, 0.15);
+}
+
+.cockpit-frame-left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 8px;
+  border-right: 1px solid rgba(0, 255, 136, 0.15);
+}
+
+.cockpit-frame-right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  border-left: 1px solid rgba(0, 255, 136, 0.15);
+}
+
+/* HUD Panels */
 .hud {
   position: absolute;
   background: rgba(0, 10, 30, 0.75);
@@ -35,6 +116,7 @@ canvas {
   line-height: 1.6;
   pointer-events: none;
   user-select: none;
+  z-index: 20;
 }
 
 .hud-title {
