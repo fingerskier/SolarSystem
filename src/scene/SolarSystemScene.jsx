@@ -72,6 +72,8 @@ export default function SolarSystemScene({ simRef, keysRef, onHudUpdate }) {
         nearestDist: nearestDist * AU_KM,
         simTime: state.simTime,
         timeWarp: state.timeWarp,
+        autopilot: state.autopilot,
+        orbit: state.orbit,
       })
     }
   })

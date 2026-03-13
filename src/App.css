@@ -169,3 +169,172 @@ canvas {
   border-radius: 3px;
   transition: width 0.1s;
 }
+
+/* Autopilot status */
+.autopilot-status {
+  color: #ffcc00;
+  margin-top: 4px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.orbit-active-status {
+  color: #44ccff;
+  margin-top: 2px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.controls-divider {
+  height: 1px;
+  background: rgba(0, 255, 136, 0.2);
+  margin: 4px 0;
+}
+
+/* Plot Course Panel */
+.plot-course-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 10, 30, 0.92);
+  border: 1px solid rgba(0, 255, 136, 0.5);
+  border-radius: 6px;
+  padding: 16px 20px;
+  color: #b0ffda;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  z-index: 30;
+  min-width: 220px;
+  pointer-events: auto;
+}
+
+.plot-course-panel .hud-title {
+  color: #00ff88;
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+  padding-bottom: 4px;
+}
+
+.plot-course-hint {
+  color: #88ccaa;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.plot-course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.plot-course-btn {
+  background: rgba(0, 255, 136, 0.08);
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  border-radius: 3px;
+  color: #b0ffda;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  padding: 6px 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.plot-course-btn:hover {
+  background: rgba(0, 255, 136, 0.18);
+  border-color: rgba(0, 255, 136, 0.5);
+}
+
+.plot-course-btn.active {
+  background: rgba(0, 255, 136, 0.25);
+  border-color: #00ff88;
+  color: #00ff88;
+}
+
+.plot-course-btn.cancel-btn {
+  background: rgba(255, 68, 68, 0.15);
+  border-color: rgba(255, 68, 68, 0.4);
+  color: #ff8888;
+}
+
+.plot-course-btn.cancel-btn:hover {
+  background: rgba(255, 68, 68, 0.3);
+  border-color: #ff4444;
+}
+
+.plot-course-btn.close-btn {
+  background: rgba(100, 100, 100, 0.15);
+  border-color: rgba(100, 100, 100, 0.4);
+  color: #aaaaaa;
+}
+
+.plot-course-btn.close-btn:hover {
+  background: rgba(100, 100, 100, 0.3);
+}
+
+.plot-course-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Orbit Panel */
+.orbit-panel {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 10, 30, 0.75);
+  border: 1px solid rgba(68, 204, 255, 0.3);
+  border-radius: 4px;
+  padding: 8px 14px;
+  color: #b0e0ff;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  z-index: 20;
+  text-align: center;
+  min-width: 180px;
+  pointer-events: auto;
+}
+
+.orbit-panel .hud-title {
+  color: #44ccff;
+  font-weight: bold;
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(68, 204, 255, 0.2);
+  padding-bottom: 3px;
+}
+
+.orbit-status {
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 11px;
+  color: #667788;
+  margin-bottom: 2px;
+}
+
+.orbit-status.ready {
+  color: #44ccff;
+}
+
+.orbit-status.orbiting {
+  color: #44ffcc;
+  animation: orbit-pulse 2s ease-in-out infinite;
+}
+
+@keyframes orbit-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.orbit-hint {
+  color: #556677;
+  font-size: 10px;
+}
