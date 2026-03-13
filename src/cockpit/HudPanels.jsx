@@ -21,11 +21,22 @@ function formatSpeed(kmps) {
   return `${kmps.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} km/s`
 }
 
+const PHASE_LABELS = {
+  turning: 'ALIGNING',
+  accelerating: 'ACCELERATING',
+  cruising: 'CRUISING',
+  decelerating: 'DECELERATING',
+  arriving: 'ARRIVING',
+  idle: 'IDLE',
+}
+
 export default function HudPanels({ hud }) {
   const speedPct = (hud.speed / SPEED_OF_LIGHT_KM_S) * 100
   const simDays = Math.floor(hud.simTime)
   const simYears = (hud.simTime / 365.25).toFixed(2)
   const warpLabel = TIME_WARP_LABELS[hud.timeWarp] || `${hud.timeWarp}x`
+  const ap = hud.autopilot
+  const orb = hud.orbit
 
   return (
     <>
@@ -37,6 +48,16 @@ export default function HudPanels({ hud }) {
           <div className="throttle-fill" style={{ width: `${speedPct}%` }} />
         </div>
         <div>Position: ({hud.x.toFixed(3)}, {hud.y.toFixed(3)}, {hud.z.toFixed(3)}) AU</div>
+        {ap?.active && (
+          <div className="autopilot-status">
+            AP: {ap.targetName} — {PHASE_LABELS[ap.phase] || ap.phase}
+          </div>
+        )}
+        {orb?.active && (
+          <div className="orbit-active-status">
+            ORBIT: {orb.targetName}
+          </div>
+        )}
       </div>
 
       <div className="hud top-right">
@@ -62,6 +83,9 @@ export default function HudPanels({ hud }) {
         <div>Mouse Look (click)</div>
         <div>Space Brake</div>
         <div>, / . Time warp -/+</div>
+        <div className="controls-divider" />
+        <div>T Plot course</div>
+        <div>O Orbit planet</div>
       </div>
     </>
   )
